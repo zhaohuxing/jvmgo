@@ -64,11 +64,14 @@ func parseTerminal() *Terminal {
 	//省略部分代码...
 	return terminal
 }
-   ```
+```
+
+
 - 编写类路径及其子类
 总类路径包含:启动类加载器路径，扩展类加载器路径，应用程序类加载器路径。在`ch02/classpath/`下编写`classpath.go`，定义类路径如下:
 
-  ```
+
+```
 type Classpath struct {
 	//启动类加载器
 	bootClasspath Entry
@@ -77,10 +80,12 @@ type Classpath struct {
 	//应用程序加载器
 	userClasspath Entry
 }
-  ```
+```
+
+
 每种类加载器都有相同的方法，这时定义一个接口开表示类路径项。在`ch02/classpath/`下编写`entry.go`文件定义`Entry`接口:
 
-  ```
+```
   type Entry interface {
 	//负责寻找和加载class
 	readClass(className string) ([]byte, Entry, error) //Go函数或方法运行返回多个值
@@ -88,15 +93,16 @@ type Classpath struct {
 	//类似toString()
 	String() string
 }
-  ```
- `DirEntry`代表:应用程序类加载器，用于加载文件目录中的class。`ZipEntry`代表:应用启动类和扩展类加载器，用于加载jar/zip文件。`CompositeEntry`和`WildcardEntry`代表:Entry的集合。在`ch02/classpath`下创建`entry_dir.go`, `entry_zip.go`,`entry_composite.go`,`entry_wildcard.go`文件实现`Entry`接口。Go的实现接口的方式与Java有所不同，想体验的话，动手实现下，体验下Go的魅力吧！由于考虑篇幅，所以接口具体实现不贴代码了，具体源码请移步[传送门](https://github.com/zhaohuXing/jvmgo/tree/master/ch02)
+```
+ 
+`DirEntry`代表:应用程序类加载器，用于加载文件目录中的class。`ZipEntry`代表:应用启动类和扩展类加载器，用于加载jar/zip文件。`CompositeEntry`和`WildcardEntry`代表:Entry的集合。在`ch02/classpath`下创建`entry_dir.go`, `entry_zip.go`,`entry_composite.go`,`entry_wildcard.go`文件实现`Entry`接口。Go的实现接口的方式与Java有所不同，想体验的话，动手实现下，体验下Go的魅力吧！由于考虑篇幅，所以接口具体实现不贴代码了，具体源码请移步[传送门](https://github.com/zhaohuXing/jvmgo/tree/master/ch02)
   
   
 - 测试执行
 编写完上述代码后，更改`ch02/main.go`中的startJVM()函数来进行测试。
 
 
-  ```
+```
 func startJVM(terminal *Terminal) {
 	cp := classpath.Parse(terminal.XjreOption, terminal.cpOption)
 	fmt.Printf("classpath:%v class:%v args:%v\n",
@@ -110,9 +116,11 @@ func startJVM(terminal *Terminal) {
 }
 
 ```
+
 一切准备就绪后，在`ch02`文件下敲入`go build -o readClass`，便生成了`readClass`可执行文件。之后按照"运行效果图"中命令行进行执行测试吧！
 
 >小结与声明：一边进一步理解Java虚拟机，一边学习Go。知识主要来源于gitbook(下面有地址)和张秀宏老师的《自己动手编写Java虚拟机》，我的源代码与书上的源码稍微有些不同。
+
 
 ## 参考文献
 - 自己动手写Java虚拟机
