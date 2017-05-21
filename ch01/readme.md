@@ -95,6 +95,6 @@ func startJVM(terminal *Terminal) {
 
 注:上述代码算是伪代码吧, 源文件还请移步[源码](https://github.com/zhaohuXing/jvmgo/tree/master/ch01)
 
-####参考文献：
+#### 参考文献：
 - 自己动手写Java虚拟机
 - https://github.com/astaxie/build-web-application-with-golang
