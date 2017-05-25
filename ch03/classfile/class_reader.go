@@ -2,6 +2,10 @@ package classfile
 
 import "encoding/binary"
 
+/*
+	定义ClassReader结构体，里面存放bytes
+	定义各种bytes向uint8, uint16, uint32, uint64, []uint16转换的方法
+*/
 type ClassReader struct {
 	data []byte
 }
@@ -37,7 +41,7 @@ func (self *ClassReader) readUint32() uint32 {
 //u8 无符号8字节
 func (self *ClassReader) readUint64() uint64 {
 	//读取U8类型数据
-	val := binary.BinEndian.Uint64(self.data)
+	val := binary.BigEndian.Uint64(self.data)
 	self.data = self.data[8:]
 	return val
 

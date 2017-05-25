@@ -2,18 +2,27 @@ package classfile
 
 import "math"
 
-//=========== Integer
+/*
+	Constant_Integer_info {
+		tag 	u1
+		bytes	u4
+	}
+*/
 type ConstantIntegerInfo struct {
 	val int32
 }
 
-//实现ConstantInfo
-func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
+func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) { //实现ConstantInfo
 	bytes := reader.readUint32()
 	self.val = int32(bytes)
 }
 
-//============= Float
+/*
+	Constant_Float_info {
+		tag 	u1
+		bytes	u4
+	}
+*/
 type ConstantFloatInfo struct {
 	val float32
 }
@@ -23,7 +32,12 @@ func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
 	self.val = math.Float32frombits(bytes)
 }
 
-//============= Long
+/*
+	Constant_Long_info {
+		tag 	u1
+		bytes	u4
+	}
+*/
 type ConstantLongInfo struct {
 	val int64
 }
@@ -33,7 +47,12 @@ func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
 	self.val = int64(bytes)
 }
 
-//============== Double
+/*
+	Constant_Double_info {
+		tag		u1
+		bytes	u4
+	}
+*/
 type ConstantDoubleInfo struct {
 	val float64
 }

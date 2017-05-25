@@ -24,12 +24,12 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 			var ok bool
 			err, ok = r.(error)
 			if !ok {
-				err = fmt.Error("%v", r)
+				err = fmt.Errorf("%v", r)
 			}
 		}
 	}()
 	cr := &ClassReader{classData}
-	cf := &ClassFile{}
+	cf = &ClassFile{}
 	cf.read(cr)
 	return //这样写按照顺序　默认返回, return classFile err
 }
@@ -82,7 +82,6 @@ func (self *ClassFile) MajorVersion() uint16 {
 
 func (self *ClassFile) ConstantPool() ConstantPool {
 	return self.constantPool
-
 }
 
 func (self *ClassFile) AccessFlags() uint16 {
@@ -90,13 +89,19 @@ func (self *ClassFile) AccessFlags() uint16 {
 }
 
 func (self *ClassFile) Fields() []*MemberInfo {
-	return fields
+	return self.fields
 }
 
 func (self *ClassFile) Methods() []*MemberInfo {
-	return methods
+	return self.methods
 }
 
+/*
+	应Constant_Class_info {
+		tag   u1 值为7
+		index u2 代表类名或接口名在常量池中的索引
+	}
+*/
 func (self *ClassFile) ClassName() string {
 	return self.constantPool.getClassName(self.thisClass)
 }

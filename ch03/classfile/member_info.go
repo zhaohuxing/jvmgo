@@ -32,7 +32,7 @@ func readMember(reader *ClassReader, cp ConstantPool) *MemberInfo {
 
 //getter
 func (self *MemberInfo) AccessFlags() uint16 {
-	return accessFlags
+	return self.accessFlags
 }
 
 //从常量池中查找字段或方法名
