@@ -1,5 +1,12 @@
 package classfile
 
+/*
+	constant_utf8_info {
+		tag 	u1
+		length  u2
+		bytes	u1
+	}
+*/
 type ConstantUtf8Info struct {
 	str string
 }

@@ -1,5 +1,11 @@
 package classfile
 
+/*
+	constant_string_info {
+		tag		u1
+		index	u2
+	}
+*/
 type ConstantStringInfo struct {
 	cp          ConstantPool
 	stringIndex uint16

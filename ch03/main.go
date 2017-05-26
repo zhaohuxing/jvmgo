@@ -20,8 +20,9 @@ func startJVM(terminal *Terminal) {
 	cp := classpath.Parse(terminal.XjreOption, terminal.cpOption)
 	fmt.Printf("classpath:%v class:%v args:%v\n",
 		cp, terminal.class, terminal.args)
+	//将terminal.class字符路径中 . --->  /, -1表示无限制替换
 	className := strings.Replace(terminal.class, ".", "/", -1)
-	cf := loadClass(className, cp)
+	cf := loadClass(className, cp) // cp ---> classpath
 	fmt.Println(terminal.class)
 	printClassInfo(cf)
 }
