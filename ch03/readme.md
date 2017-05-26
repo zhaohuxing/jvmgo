@@ -2,12 +2,29 @@
 - class_reader.go中定义了ClassReader结构体,可以读取(u1, u2, u4, u8)类型。
 - class_file.go中定义了ClassFile结构体,并存在一系列的函数和方法
 - member_info.go中定义了MemeberInfo统一表示字段和方法
-- constant_poll中定义了slice的ConstantInfo
+- constant_pool.go中定义了slice的ConstantInfo
+- constant_info.go中定义ConstantInfo(接口)结构体,并声明了14中常量的tag值,方便创建对应的常量
+	- cp_utf8_info.go定义了ConstantUtf8Info实现了ConstantInfo接口
+	- cp_numberic_info.go定义了ConstantIntegerInfo, ConstantFloatInfo, ConstantLongInfo, ConstantDoubleInfo都实现了ConstantInfo接口
+	- cp_class_info.go定义了ConstantClassInfo实现了ConstantInfo接口
+	- cp_string_info.go定义了ConstantStringInfo实现了ConstantInfo接口
+	- cp_member_ref_info.go定义了ConstantMemberrefInfo, 而ConstantFieldrefInfo, ConstantMethodrefInfo, ConstantInterfaceMethodrefInfo “继承”了ConstantMemberrefInfo
+	- cp_name_and_type_info.go定义了ConstantNameAndTypeInfo实现了ConstantInfo接口
+	- cp_invoke_dynamic_info.go定义了ConstantMethodHandleInfo,ConstantMethodTypeInfo, ConstantInvokeDynamicInfo都实现了ConstantInfo 
+- attribute_info.go中定义了AttributeInfo接口:
+	- attr_markers.go中定义了MarkerAttribute并实现了AttributeInfo,DeprecatedAttribute和SyntheticAttribute“继承”了MarkerAttribute, 结构体中内容为空（摆设）
 
+	- attr_source_file.go中定义了SourceFileAttribute结构体并实现了AttributeInfo, 该属性只出现在ClassFile结构中
+	- attr_constant_value.go中定义了ConstantValueAttribute结构体并实现了AttributeInfo.该属性只出现在Field_info结构中
+	- attr_code.go中定义了CodeAttribute结构体并实现了AttributeInfo，该属性只出现在method_info中
+	- attr_exceptions.go中定义了ExceptionsAttribute结构体并实现了AttributeInfo
+	- attr_line_number_table.go中定义了LineNuberTableAttribute结构体并实现了AttributeInfo（不是运行期所必须的）
+	- attr_local_variable_table.go中定义了LocalVariableTableAttribute结构体实现了AttributeInfo(不是运行期所必须的)
+	- attr_unparsed.go中定义了未解析的结构体
 
+## ===================部分文档
 
-## ====================部分文档
-一个class文件由那些部分构成的呢？
+	一个class文件由那些部分构成的呢？
 >  Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符。
 
 (这使得整个class文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间数据项时，则会按照高位在前的方式分割成若干个8位字节进行存储)
