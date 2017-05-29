@@ -1,4 +1,4 @@
-package rtda //run-time data area
+package rtda
 
 type Object struct {
 	//TODO

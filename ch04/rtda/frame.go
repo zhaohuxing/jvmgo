@@ -1,9 +1,9 @@
 package rtda
 
 type Frame struct {
-	lower        *Frame        //下一节点
-	localVars    LocalVars     //局部变量表指针
-	operandStack *OperandStack //操作数栈指针
+	lower        *Frame        `next frame`
+	localVars    LocalVars     `局部变量表`
+	operandStack *OperandStack `操作数栈`
 }
 
 func NewFrame(maxLocals, maxStack uint) *Frame {

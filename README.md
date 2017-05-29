@@ -12,3 +12,6 @@ helloworld级别
 
 ## ch03(170526)
 完成解析Class文件,文档见:ch03/readme.md
+
+## ch04(170529)
+完成运行时数据区域,文档见:ch04/readme.md
