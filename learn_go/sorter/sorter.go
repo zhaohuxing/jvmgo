@@ -1,11 +1,20 @@
 package main
 
+//Go自带包
 import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
+	"time"
+)
+
+//自己编写包
+import (
+	"jvmgo/learn_go/sorter/algorithms/bubblesort"
+	"jvmgo/learn_go/sorter/algorithms/qsort"
 )
 
 /*
@@ -20,8 +29,34 @@ var infile *string = flag.String("i", "unsorted.dat", "File contains values for 
 var outfile *string = flag.String("o", "sorted.dat", "File to receive sorted values")
 var algorithm *string = flag.String("a", "qsort", "Sort Algorithm")
 
+func main() {
+	flag.Parse()
+
+	if infile != nil {
+		fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
+	}
+
+	values, err := readValues(*infile) //指针 TODO
+	if err == nil {
+		t1 := time.Now()
+		switch *algorithm {
+		case "qsort":
+			qsort.QuickSort(values)
+		case "bubblesort":
+			bubblesort.BubbleSort(values)
+		default:
+			fmt.Println("Sorting algorithm", *algorithm, "is either unknown or unsupported.")
+		}
+		t2 := time.Now()
+		fmt.Println("The sorting process costs", t2.Sub(t1), "to complete.")
+		writeValues(values, *outfile)
+	} else {
+		fmt.Println(err)
+	}
+}
+
 func readValues(infile string) (values []int, err error) {
-	file, err := os.Open(infile)
+	file, err := os.Open(infile) //打开文件
 	if err != nil {
 		fmt.Println("Failed to open the input file", infile)
 		return
@@ -48,6 +83,12 @@ func readValues(infile string) (values []int, err error) {
 		}
 
 		str := string(line)
+		value, err1 := strconv.Atoi(str)
+
+		if err1 != nil {
+			err = err1
+			return
+		}
 		values = append(values, value)
 	}
 	return
@@ -66,19 +107,4 @@ func writeValues(values []int, outfile string) error {
 		file.WriteString(str + "\n")
 	}
 	return nil
-}
-func main() {
-	flag.Parse()
-
-	if infile != nil {
-		fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
-	}
-
-	values, err := readValues(*infile) //指针 TODO
-	if err == nil {
-		fmt.Println("Read Values:", value)
-	} else {
-		fmt.Println(err)
-	}
-
 }
