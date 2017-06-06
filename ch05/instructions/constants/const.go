@@ -9,6 +9,7 @@ type ACONST_NULL struct {
 	base.NoOperandsInstruction
 }
 
+//aconst_null指令把null引用推入操作数栈顶
 func (self *ACONST_NULL) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushRef(nil)
 }
@@ -17,7 +18,8 @@ type DCONST_0 struct {
 	base.NoOperandsInstruction
 }
 
-func (self *DCONST_0) Execute(frame *rtad.Frame) {
+//dconst_0指令把double型0推入操作数栈顶
+func (self *DCONST_0) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushDouble(0.0)
 }
 
@@ -25,6 +27,7 @@ type DCONST_1 struct {
 	base.NoOperandsInstruction
 }
 
+//dconst_1指令把double型1推入操作数栈顶
 func (self *DCONST_1) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushDouble(1.0)
 }
@@ -33,6 +36,7 @@ type FCONST_0 struct {
 	base.NoOperandsInstruction
 }
 
+//fconst_0指令把float型0推入操作数栈顶
 func (self *FCONST_0) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushFloat(0.0)
 }
@@ -41,6 +45,7 @@ type FCONST_1 struct {
 	base.NoOperandsInstruction
 }
 
+//fconst_1指令把float型1推入操作数栈顶
 func (self *FCONST_1) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushFloat(1.0)
 }
@@ -49,6 +54,7 @@ type FCONST_2 struct {
 	base.NoOperandsInstruction
 }
 
+//fconst_2指令把float型2推入操作数栈顶
 func (self *FCONST_2) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushFloat(2.0)
 }
@@ -57,6 +63,7 @@ type ICONST_M1 struct {
 	base.NoOperandsInstruction
 }
 
+//iconst_m1指令把int型-1推入操作数栈顶
 func (self *ICONST_M1) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushInt(-1)
 }

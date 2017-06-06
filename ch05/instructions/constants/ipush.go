@@ -5,8 +5,9 @@ import (
 	"jvmgo/ch05/rtda"
 )
 
+//bipush指令从操作数中获取一个byte型整数, 扩展成int型，然后推入栈顶
 type BIPUSH struct {
-	val int8
+	val int8 //byte型整数
 }
 
 func (self *BIPUSH) FetchOperands(reader *base.BytecodeReader) {
@@ -18,6 +19,7 @@ func (self *BIPUSH) Execute(frame *rtda.Frame) {
 	frame.OperandStack().PushInt(i)
 }
 
+//sipush指令从操作数中获取一个short型整数, 然后扩展成int型，然后推入栈顶
 type SIPUSH struct {
 	val int16
 }
