@@ -34,7 +34,7 @@ type I2S struct {
 	base.NoOperandsInstruction
 }
 
-func (self *I2S) Execute(frame *rtad.Frame) {
+func (self *I2S) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	s := int32(int16(i))

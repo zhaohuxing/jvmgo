@@ -13,7 +13,7 @@ type WIDE struct {
 }
 
 func (self *WIDE) FetchOperands(reader *base.BytecodeReader) {
-	opcode := reader.Uint8()
+	opcode := reader.ReadUint8()
 	switch opcode {
 
 	case 0x15:
@@ -29,7 +29,7 @@ func (self *WIDE) FetchOperands(reader *base.BytecodeReader) {
 		inst.Index = uint(reader.ReadUint16())
 		self.modifiedInstruction = inst
 	case 0x18:
-		inst := &loadsDLOAD{}
+		inst := &loads.DLOAD{}
 		inst.Index = uint(reader.ReadUint16())
 		self.modifiedInstruction = inst
 	case 0x19:
@@ -53,7 +53,7 @@ func (self *WIDE) FetchOperands(reader *base.BytecodeReader) {
 		inst.Index = uint(reader.ReadUint16())
 		self.modifiedInstruction = inst
 	case 0x3a:
-		inst := &sotres.ASTORE{}
+		inst := &stores.ASTORE{}
 		inst.Index = uint(reader.ReadUint16())
 		self.modifiedInstruction = inst
 	case 0x84:

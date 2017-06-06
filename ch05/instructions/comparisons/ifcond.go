@@ -32,7 +32,7 @@ type IFLT struct {
 	base.BranchInstruction
 }
 
-func (self *INLT) Execute(frame *rtda.Frame) {
+func (self *IFLT) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val < 0 {
 		base.Branch(frame, self.Offset)

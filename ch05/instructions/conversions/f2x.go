@@ -15,7 +15,7 @@ type F2D struct {
 func (self *F2D) Execute(frame *rtda.Frame) {
 
 	d := float64(getFloat(frame))
-	frame.OperandStack.PushDouble(d)
+	frame.OperandStack().PushDouble(d)
 }
 
 //Convert float to int
@@ -26,7 +26,7 @@ type F2I struct {
 
 func (self *F2I) Execute(frame *rtda.Frame) {
 	i := int32(getFloat(frame))
-	frame.OperandStack.PushInt(i)
+	frame.OperandStack().PushInt(i)
 }
 
 //Convert float to long

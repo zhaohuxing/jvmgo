@@ -15,7 +15,7 @@ func (self *LOOKUP_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 	reader.SkipPadding()
 	self.defaultOffset = reader.ReadInt32()
 	self.npairs = reader.ReadInt32()
-	self.matchOffset = reader.ReadInt32s(self.npairs * 2)
+	self.matchOffsets = reader.ReadInt32s(self.npairs * 2)
 }
 
 func (self *LOOKUP_SWITCH) Execute(frame *rtda.Frame) {

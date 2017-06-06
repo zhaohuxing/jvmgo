@@ -12,7 +12,7 @@ type TABLE_SWITCH struct {
 	jumpOffsets   []int32
 }
 
-func (self *TABLE_SWITCh) FetchOperands(reader *base.BytecodeReader) {
+func (self *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 	reader.SkipPadding()
 	self.defaultOffset = reader.ReadInt32()
 	self.low = reader.ReadInt32()
@@ -29,5 +29,5 @@ func (self *TABLE_SWITCH) Execute(frame *rtda.Frame) {
 	} else {
 		offset = int(self.defaultOffset)
 	}
-	brach.Branch(frame, offset)
+	base.Branch(frame, offset)
 }
