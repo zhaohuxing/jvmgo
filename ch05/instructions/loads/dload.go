@@ -47,5 +47,5 @@ func (self *DLOAD_3) Execute(frame *rtda.Frame) {
 
 func _dload(frame *rtda.Frame, index uint) {
 	val := frame.LocalVars().GetDouble(index)
-	frame.OpenrandStack().PushDouble(val)
+	frame.OperandStack().PushDouble(val)
 }

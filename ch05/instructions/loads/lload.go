@@ -1,7 +1,7 @@
 package loads
 
 import (
-	"jvmgo/ch05/instrcutions/base"
+	"jvmgo/ch05/instructions/base"
 	"jvmgo/ch05/rtda"
 )
 
@@ -10,7 +10,7 @@ type LLOAD struct {
 }
 
 func (self *LLOAD) Execute(frame *rtda.Frame) {
-	_lload(frame, uint(self.index))
+	_lload(frame, uint(self.Index))
 }
 
 type LLOAD_0 struct {

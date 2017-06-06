@@ -2,7 +2,7 @@
 package loads
 
 import "jvmgo/ch05/instructions/base"
-import "jvmg0/ch05/rtda"
+import "jvmgo/ch05/rtda"
 
 //Load int from local variable
 type ILOAD struct {

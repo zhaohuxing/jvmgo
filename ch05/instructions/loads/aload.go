@@ -1,7 +1,7 @@
 package loads
 
 import (
-	"jvmgo/ch05/instruction/base"
+	"jvmgo/ch05/instructions/base"
 	"jvmgo/ch05/rtda"
 )
 

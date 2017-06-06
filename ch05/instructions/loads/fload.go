@@ -10,7 +10,7 @@ type FLOAD struct {
 }
 
 func (self *FLOAD) Execute(frame *rtda.Frame) {
-	_fload(frame, uint(self.index))
+	_fload(frame, uint(self.Index))
 }
 
 type FLOAD_0 struct {
@@ -41,7 +41,7 @@ type FLOAD_3 struct {
 	base.NoOperandsInstruction
 }
 
-func (self *FLOAD_) Execute(frame *rtda.Frame) {
+func (self *FLOAD_3) Execute(frame *rtda.Frame) {
 	_fload(frame, 3)
 }
 
