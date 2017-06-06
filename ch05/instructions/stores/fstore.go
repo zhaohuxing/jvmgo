@@ -14,7 +14,7 @@ func (self *FSTORE) Execute(frame *rtda.Frame) {
 }
 
 type FSTORE_0 struct {
-	base.NoOpefandsInstruction
+	base.NoOperandsInstruction
 }
 
 func (self *FSTORE_0) Execute(frame *rtda.Frame) {
@@ -22,7 +22,7 @@ func (self *FSTORE_0) Execute(frame *rtda.Frame) {
 }
 
 type FSTORE_1 struct {
-	base.NoOpefandsInstruction
+	base.NoOperandsInstruction
 }
 
 func (self *FSTORE_1) Execute(frame *rtda.Frame) {
@@ -30,7 +30,7 @@ func (self *FSTORE_1) Execute(frame *rtda.Frame) {
 }
 
 type FSTORE_2 struct {
-	base.NoOpefandsInstruction
+	base.NoOperandsInstruction
 }
 
 func (self *FSTORE_2) Execute(frame *rtda.Frame) {
@@ -38,7 +38,7 @@ func (self *FSTORE_2) Execute(frame *rtda.Frame) {
 }
 
 type FSTORE_3 struct {
-	base.NoOpefandsInstruction
+	base.NoOperandsInstruction
 }
 
 func (self *FSTORE_3) Execute(frame *rtda.Frame) {
