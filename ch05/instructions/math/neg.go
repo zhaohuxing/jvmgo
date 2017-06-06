@@ -22,8 +22,8 @@ type FNEG struct {
 
 func (self *FNEG) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	val := frame.PopFloat()
-	stack.PushDouble(-val)
+	val := stack.PopFloat()
+	stack.PushFloat(-val)
 }
 
 type INEG struct {
@@ -32,7 +32,7 @@ type INEG struct {
 
 func (self *INEG) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	val := frame.PopInt()
+	val := stack.PopInt()
 	stack.PushInt(-val)
 }
 
@@ -42,6 +42,6 @@ type LNEG struct {
 
 func (self *LNEG) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	val := frame.PopLong()
+	val := stack.PopLong()
 	stack.PushLong(-val)
 }

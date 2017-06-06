@@ -2,7 +2,7 @@ package math
 
 import (
 	"jvmgo/ch05/instructions/base"
-	"jvmgo/ch05/rtba"
+	"jvmgo/ch05/rtda"
 )
 
 type DDIV struct {

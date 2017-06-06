@@ -20,13 +20,13 @@ func (self *IXOR) Execute(frame *rtda.Frame) {
 
 //boolean xor long
 type LXOR struct {
-	base.NoOperandsInstrcution
+	base.NoOperandsInstruction
 }
 
 func (self *LXOR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v1 := stack.PopLong()
-	v2 := stakc.PopLong()
+	v2 := stack.PopLong()
 	result := v1 ^ v2
 	stack.PushLong(result)
 }

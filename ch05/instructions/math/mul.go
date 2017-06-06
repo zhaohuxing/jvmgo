@@ -26,7 +26,7 @@ func (self *FMUL) Execute(frame *rtda.Frame) {
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
 	result := v2 * v1
-	stack.PushDouble(result)
+	stack.PushFloat(result)
 }
 
 type IMUL struct {
@@ -50,5 +50,5 @@ func (self *LMUL) Execute(frame *rtda.Frame) {
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()
 	result := v2 * v1
-	stack.PushInt(result)
+	stack.PushLong(result)
 }

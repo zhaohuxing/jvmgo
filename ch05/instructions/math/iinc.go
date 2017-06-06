@@ -6,6 +6,7 @@ import (
 	"jvmgo/ch05/rtda"
 )
 
+//iinc指令给局部变量表中的int变量增加常量值，局部变量索引和常量值都由指令的操作数提供
 type IINC struct {
 	Index uint
 	Const int32

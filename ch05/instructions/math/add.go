@@ -18,7 +18,7 @@ func (self *DADD) Execute(frame *rtda.Frame) {
 }
 
 type FADD struct {
-	base.NoOprendsInstruction
+	base.NoOperandsInstruction
 }
 
 func (self *FADD) Execute(frame *rtda.Frame) {
@@ -26,7 +26,7 @@ func (self *FADD) Execute(frame *rtda.Frame) {
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
 	result := v1 + v2
-	stack.PushDouble(result)
+	stack.PushFloat(result)
 }
 
 type IADD struct {
