@@ -1,5 +1,7 @@
 package classfile
 
+//Code是变长属性，只存在与method_info结构中
+//Code属性中存放字节码等方法相关信息
 type CodeAttribute struct {
 	cp             ConstantPool
 	maxStack       uint16

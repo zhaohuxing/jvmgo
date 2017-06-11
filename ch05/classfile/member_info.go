@@ -1,5 +1,13 @@
 package classfile
 
+/*
+	field_info {
+		u2 				access_flags
+		u2 				name_index
+		u2 				descriptorIndex
+		attribute_info  attributes[[attributes_count]
+	}
+*/
 //表示字段和方法
 type MemberInfo struct {
 	cp              ConstantPool
