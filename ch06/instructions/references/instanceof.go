@@ -14,7 +14,7 @@ func (self *INSTANCE_OF) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 	if ref == nil {
-		stack.PushInt()
+		stack.PushInt(0)
 		return
 	}
 

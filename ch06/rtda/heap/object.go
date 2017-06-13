@@ -2,7 +2,7 @@ package heap
 
 type Object struct {
 	//TODO
-	Class  *Class
+	class  *Class
 	fields Slots
 }
 
@@ -15,4 +15,14 @@ func newObject(class *Class) *Object {
 
 func (self *Object) IsInstanceOf(class *Class) bool {
 	return class.isAssignableFrom(self.class)
+}
+
+//getter
+
+func (self *Object) Class() *Class {
+	return self.class
+}
+
+func (self *Object) Fields() Slots {
+	return self.fields
 }

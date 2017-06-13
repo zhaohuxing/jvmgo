@@ -17,7 +17,7 @@ type LDC_W struct {
 	base.Index16Instruction
 }
 
-func (sefl *LDC_W) Execute(frame *rtda.Frame) {
+func (self *LDC_W) Execute(frame *rtda.Frame) {
 	_ldc(frame, self.Index)
 }
 

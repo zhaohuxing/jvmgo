@@ -15,7 +15,7 @@ type ConstantPool struct {
 func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 	cpCount := len(cfCp)
 	consts := make([]Constant, cpCount)
-	rtCp := &ConstantPool(class, consts)
+	rtCp := &ConstantPool{class, consts}
 	for i := 1; i < cpCount; i++ {
 		cpInfo := cfCp[i]
 		switch cpInfo.(type) {
@@ -34,7 +34,7 @@ func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 			consts[i] = doubleInfo.Value()
 			i++ //double 占两个slot
 		case *classfile.ConstantStringInfo:
-			stringINfo := cpInfo.(*Classfile.ConstantStringInfo)
+			stringInfo := cpInfo.(*classfile.ConstantStringInfo)
 			consts[i] = stringInfo.String()
 		case *classfile.ConstantClassInfo:
 			classInfo := cpInfo.(*classfile.ConstantClassInfo)
@@ -47,7 +47,7 @@ func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 			consts[i] = newMethodRef(rtCp, methodrefInfo)
 		case *classfile.ConstantInterfaceMethodrefInfo:
 			methodrefInfo := cpInfo.(*classfile.ConstantInterfaceMethodrefInfo)
-			consts[i] = newInterfaceMethod(rtCp, methodrefInfo)
+			consts[i] = newInterfaceMethodRef(rtCp, methodrefInfo)
 		}
 	}
 	return rtCp

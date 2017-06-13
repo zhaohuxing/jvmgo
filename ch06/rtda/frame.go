@@ -20,12 +20,12 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 	}
 }
 
-func (self Frame) LocalVars() LocalVars {
-	return frame.localVars
+func (self *Frame) LocalVars() LocalVars {
+	return self.localVars
 }
 
-func (self Frame) OperandStack() *OperandStack {
-	return frame.operandStack
+func (self *Frame) OperandStack() *OperandStack {
+	return self.operandStack
 }
 
 func (self *Frame) Thread() *Thread {

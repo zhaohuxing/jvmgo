@@ -30,7 +30,3 @@ func startJVM(terminal *Terminal) {
 		fmt.Printf("Main method not found in class %s\n", terminal.class)
 	}
 }
-
-func (self *Class) GetMainMethod() *Method {
-	return self.getStaticMethod("main", "(Ljava/lang/String;)V")
-}

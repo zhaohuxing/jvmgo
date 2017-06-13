@@ -14,3 +14,14 @@ func newMethodRef(cp *ConstantPool,
 	ref.copyMemberRefInfo(&refInfo.ConstantMemberrefInfo)
 	return ref
 }
+
+func (self *MethodRef) ReslovedMethod() *Method {
+	if self.method == nil {
+		self.resolveMethodRef()
+	}
+	return self.method
+}
+
+func (self *MethodRef) resolveMethodRef() {
+
+}

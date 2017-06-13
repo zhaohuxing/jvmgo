@@ -13,7 +13,7 @@ type GET_FIELD struct {
 func (self *GET_FIELD) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	fieldRef := cp.GetConstant(self.Index).(*heap.FieldRef)
-	field := fieldRef.ResovledField()
+	field := fieldRef.ResolvedField()
 
 	if field.IsStatic() {
 		panic("java.lang.IncompatibleClassChageError")
@@ -34,7 +34,7 @@ func (self *GET_FIELD) Execute(frame *rtda.Frame) {
 		stack.PushInt(slots.GetInt(slotId))
 	case 'F':
 		stack.PushFloat(slots.GetFloat(slotId))
-	case 'L':
+	case 'J':
 		stack.PushLong(slots.GetLong(slotId))
 	case 'D':
 		stack.PushDouble(slots.GetDouble(slotId))

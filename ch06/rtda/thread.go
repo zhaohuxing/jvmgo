@@ -3,7 +3,7 @@ package rtda
 import "jvmgo/ch06/rtda/heap"
 
 type Thread struct {
-	pc    int `存放字节码执行的行号`
+	pc    int
 	stack *Stack
 }
 
@@ -38,5 +38,5 @@ func (self *Thread) CurrentFrame() *Frame {
 
 //NewFrame 方法
 func (self *Thread) NewFrame(method *heap.Method) *Frame {
-	return newFrame(method)
+	return newFrame(self, method)
 }

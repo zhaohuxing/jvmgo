@@ -94,3 +94,12 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
 	}
 	return nil
 }
+
+//getter
+
+func (self *Class) ConstantPool() *ConstantPool {
+	return self.constantPool
+}
+func (self *Class) StaticVars() Slots {
+	return self.staticVars
+}

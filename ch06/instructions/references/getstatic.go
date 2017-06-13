@@ -13,7 +13,7 @@ type GET_STATIC struct {
 func (self *GET_STATIC) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	fieldRef := cp.GetConstant(self.Index).(*heap.FieldRef)
-	field := fieldRef.REsolvedField()
+	field := fieldRef.ResolvedField()
 	class := field.Class()
 	if !field.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")

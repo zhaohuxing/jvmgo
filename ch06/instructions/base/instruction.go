@@ -1,6 +1,6 @@
 package base
 
-import "jvmgo/ch05/rtda"
+import "jvmgo/ch06/rtda"
 
 type Instruction interface {
 	//从字节码中提取操作数

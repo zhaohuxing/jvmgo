@@ -3,7 +3,7 @@ package rtda
 type Stack struct {
 	maxSize uint
 	size    uint
-	_top    *Frame `栈帧`
+	_top    *Frame
 }
 
 //初始化maxSize容量的栈

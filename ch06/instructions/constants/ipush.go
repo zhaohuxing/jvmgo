@@ -1,8 +1,8 @@
 package constants
 
 import (
-	"jvmgo/ch05/instructions/base"
-	"jvmgo/ch05/rtda"
+	"jvmgo/ch06/instructions/base"
+	"jvmgo/ch06/rtda"
 )
 
 //bipush指令从操作数中获取一个byte型整数, 扩展成int型，然后推入栈顶

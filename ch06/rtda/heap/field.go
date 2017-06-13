@@ -26,7 +26,7 @@ func (self *Field) copyAttributes(cfField *classfile.MemberInfo) {
 }
 
 func (self *Field) IsVolatile() bool {
-	return self.accessFlags&ACC_VLOATILE != 0
+	return self.accessFlags&ACC_VOLATILE != 0
 }
 
 func (self *Field) IsTransient() bool {

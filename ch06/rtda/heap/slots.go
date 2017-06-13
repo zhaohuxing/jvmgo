@@ -35,8 +35,8 @@ func (self Slots) GetFloat(index uint) float32 {
 }
 
 func (self Slots) SetLong(index uint, val int64) {
-	self[index] = int32(val)
-	self[index+1] = int32(val >> 32)
+	self[index].num = int32(val)
+	self[index+1].num = int32(val >> 32)
 }
 
 func (self Slots) GetLong(index uint) int64 {
