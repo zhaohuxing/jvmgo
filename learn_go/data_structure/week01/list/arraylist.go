@@ -5,7 +5,7 @@ type ArrayList struct {
 	data []interface{}
 }
 
-func (self *ArrayList) add(e interface{}) bool {
+func (self *ArrayList) Add(e interface{}) bool {
 	//先不设边界条件
 	if e == nil {
 		return false
@@ -15,7 +15,7 @@ func (self *ArrayList) add(e interface{}) bool {
 	return true
 }
 
-func (self *ArrayList) get(index int32) interface{} {
+func (self *ArrayList) Get(index int32) interface{} {
 	if self.size == 0 || self.size < index {
 		return nil
 	}
@@ -23,7 +23,7 @@ func (self *ArrayList) get(index int32) interface{} {
 	return self.data[index]
 }
 
-func (self *ArrayList) remove(index int32) interface{} {
+func (self *ArrayList) Remove(index int32) interface{} {
 	//假设index范围合法
 	old := self.data[index]
 	self.data = append(self.data[:index], self.data[index+1:]...)
