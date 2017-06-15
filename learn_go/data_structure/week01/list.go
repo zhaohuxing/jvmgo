@@ -1,10 +1,9 @@
 package main
 
-// 问题来了？
-// next, prev 的类型为啥是*Element, 而不是Element
-// list *List 的类型而不是List
+import "fmt"
+
 type Element struct {
-	next, prev *Element
+	prev, next *Element
 	list       *List
 	Value      interface{}
 }
@@ -32,16 +31,18 @@ type List struct {
 func (l *List) Init() *List {
 	l.root.next = &l.root
 	l.root.prev = &l.root
+	//l.root.list = l
 	l.len = 0
 	return l
 }
 
 func New() *List {
 	//new 申请内存初始化
-	return new(List).Init()
+	list := new(List)
+	return list.Init()
 }
 
-func (l *List) Len() {
+func (l *List) Len() int {
 	return l.len
 }
 
@@ -67,24 +68,6 @@ func (l *List) lazyInit() {
 	}
 }
 
-//insert e after at
-func (l *List) insert(e, at *Element) *Element {
-	n := at.next
-	at.next = e
-	e.prev = at
-	e.next = n
-	n.prev = e
-	e.list = l
-	l.size++
-	return e
-
-}
-
-func (l *List) insertValue(v interface{}, at *Element) *Element {
-	//创建新的节点
-	return l.insert(&Element{Value: v}, at)
-}
-
 func (l *List) remove(e *Element) *Element {
 	e.prev.next = e.next
 	e.next.prev = e.prev
@@ -103,6 +86,25 @@ func (l *List) Remove(e *Element) interface{} {
 	return e.Value
 }
 
+//insert e after at
+func (l *List) insert(e, at *Element) *Element {
+	n := at.next
+	at.next = e
+	e.prev = at
+	e.next = n
+	n.prev = e
+	e.list = l
+	l.len++
+	fmt.Println("l.root.prev:", l.root.prev, "  l.root.next:", l.root.next)
+	return e
+
+}
+
+func (l *List) insertValue(v interface{}, at *Element) *Element {
+	//创建新的节点
+	return l.insert(&Element{Value: v}, at)
+}
+
 //TODO 为啥是 &l.root
 func (l *List) PushFront(v interface{}) *Element {
 	l.lazyInit()
@@ -112,7 +114,7 @@ func (l *List) PushFront(v interface{}) *Element {
 //TODO 为啥是 &l.root.prev
 func (l *List) PushBack(v interface{}) *Element {
 	l.lazyInit()
-	return l.insertValue(v, &l.root.prev)
+	return l.insertValue(v, l.root.prev)
 }
 
 //TODO  为啥是mark.prev
@@ -175,7 +177,7 @@ func (l *List) PushBackList(other *List) {
 
 func (l *List) PushFrontList(other *List) {
 	l.lazyInit()
-	for i, e := other.Len(), other.Back(); i > 0; e = i - 1, e.Prev() {
+	for i, e := other.Len(), other.Back(); i > 0; i, e = i-1, e.Prev() {
 		l.insertValue(e.Value, &l.root)
 	}
 }
