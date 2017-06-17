@@ -1,8 +1,8 @@
 package constants
 
 import (
-	"jvmgo/ch06/instructions/base"
-	"jvmgo/ch06/rtda"
+	"jvmgo/ch05/instructions/base"
+	"jvmgo/ch05/rtda"
 )
 
 //代表无操作

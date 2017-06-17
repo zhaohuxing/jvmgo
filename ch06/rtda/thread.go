@@ -1,9 +1,7 @@
 package rtda
 
-import "jvmgo/ch06/rtda/heap"
-
 type Thread struct {
-	pc    int
+	pc    int `存放字节码执行的行号`
 	stack *Stack
 }
 
@@ -37,6 +35,6 @@ func (self *Thread) CurrentFrame() *Frame {
 }
 
 //NewFrame 方法
-func (self *Thread) NewFrame(method *heap.Method) *Frame {
-	return newFrame(self, method)
+func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
+	return newFrame(self, maxLocals, maxStack)
 }

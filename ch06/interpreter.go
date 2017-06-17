@@ -2,18 +2,24 @@ package main
 
 import (
 	"fmt"
-	"jvmgo/ch06/instructions"
-	"jvmgo/ch06/instructions/base"
-	"jvmgo/ch06/rtda"
-	"jvmgo/ch06/rtda/heap"
+	"jvmgo/ch05/classfile"
+	"jvmgo/ch05/instructions"
+	"jvmgo/ch05/instructions/base"
+	"jvmgo/ch05/rtda"
 )
 
-func interpret(method *heap.Method) {
+func interpret(methodInfo *classfile.MemberInfo) {
+	codeAttr := methodInfo.CodeAttribute()
+	maxLocals := codeAttr.MaxLocals()
+	maxStack := codeAttr.MaxStack()
+	byteCode := codeAttr.Code()
+
 	thread := rtda.NewThread()
-	frame := thread.NewFrame(method)
+	frame := thread.NewFrame(maxLocals, maxStack)
 	thread.PushFrame(frame)
+
 	defer catchErr(frame)
-	loop(thread, method.Code())
+	loop(thread, byteCode)
 }
 
 func catchErr(frame *rtda.Frame) {

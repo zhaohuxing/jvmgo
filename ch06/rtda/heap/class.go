@@ -7,99 +7,57 @@ import (
 
 type Class struct {
 	accessFlags       uint16
-	name              string //thisClassName
+	name              string
 	superClassName    string
 	interfaceNames    []string
 	constantPool      *ConstantPool //TODO
-	fields            []*Field      //TODO
-	methods           []*Method     //TODO
-	loader            *ClassLoader  //TODO
+	fields            []*Field
+	methods           []*Method
+	loader            *ClassLoader
 	superClass        *Class
 	interfaces        []*Class
 	instanceSlotCount uint
 	staticSlotCount   uint
-	staticVars        Slots //TODO
+	staticVars        Slots
 }
 
+//TODO
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
+	// AccessFlags(), ClassName(), SuperClassName(), InterfaceNames()
+	// ConstantPool(), Fields(), Methods()
+	//位于/classfile/class_file.go中
 	class.accessFlags = cf.AccessFlags()
 	class.name = cf.ClassName()
 	class.superClassName = cf.SuperClassName()
 	class.interfaceNames = cf.InterfaceNames()
-	class.constantPool = newConstantPool(class, cf.ConstantPool()) //TODO
-	class.fields = newFields(class, cf.Fields())                   //TODO
-	class.methods = newMethods(class, cf.Methods())                //TODO
+	class.constantPool = newConstantPool(class, cf.ConstantPool()) //newConstantPool(...)　位于.../heap/constant_pool.go中
+	class.fields = newFields(class, cf.Fields())                   // newFields(...) 位于.../heap/field.go中
+	class.methods = newMethods(class, cf.Methods())                // newMethods(...) 位于.../heap/method.go中
 	return class
 }
 
-func (self *Class) IsPublic() bool {
-	return 0 != self.accessFlags&ACC_PUBLIC
+//getters
+func (self *Class) ConstantPool() *ContantPool {
+	return self.constantPool
 }
 
-func (self *Class) IsFinal() bool {
-	return 0 != self.accessFlags&ACC_FINAL
+func (self *Class) StaticVars() Slots {
+	return self.staticVars
 }
 
-func (self *Class) IsSuper() bool {
-	return 0 != self.accessFlags&ACC_SUPER
-}
+//访问标志
 
-func (self *Class) IsInterface() bool {
-	return 0 != self.accessFlags&ACC_INTERFACE
-}
-
-func (self *Class) IsAbstract() bool {
-	return 0 != self.accessFlags&ACC_ABSTRACT
-}
-
-func (self *Class) IsSynthetic() bool {
-	return 0 != self.accessFlags&ACC_SYNTHETIC
-}
-
-func (self *Class) IsAnnotation() bool {
-	return 0 != self.accessFlags&ACC_ANNOTATION
-}
-
-func (self *Class) IsEnum() bool {
-	return 0 != self.accessFlags&ACC_ENUM
-}
-
+//
 func (self *Class) isAccessibleTo(other *Class) bool {
-	return self.IsPublic() || self.getPackageName() == other.getPackageName()
+	return self.IsPublic() ||
+		self.getPackageName() == other.getPackageName()
 }
 
+//
 func (self *Class) getPackageName() string {
 	if i := strings.LastIndex(self.name, "/"); i >= 0 {
 		return self.name[:i]
 	}
 	return ""
-}
-
-func (self *Class) NewObject() *Object {
-	return newObject(self)
-}
-
-func (self *Class) GetMainMethod() *Method {
-	return self.getStaticMethod("main", "(Ljava/lang/String;)V")
-}
-
-func (self *Class) getStaticMethod(name, descriptor string) *Method {
-	for _, method := range self.methods {
-		if method.IsStatic() &&
-			method.name == name &&
-			method.descriptor == descriptor {
-			return method
-		}
-	}
-	return nil
-}
-
-//getter
-
-func (self *Class) ConstantPool() *ConstantPool {
-	return self.constantPool
-}
-func (self *Class) StaticVars() Slots {
-	return self.staticVars
 }
