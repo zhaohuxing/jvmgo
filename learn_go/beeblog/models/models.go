@@ -35,3 +35,29 @@ func RegisterDB() {
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(127.0.0.1:3306)/beeblog?charset=utf8", 30)
 	orm.RegisterModel(new(Category), new(Topic))
 }
+
+func AddCategory(name string) error {
+	o := orm.NewOrm()
+	cate := &Category{Title: name, Created: time.Now(), TopicTime: time.Now()}
+
+	qs := o.QueryTable("category")
+	err := qs.Filter("title", name).One(cate)
+	if err == nil {
+		return err
+	}
+
+	_, err = o.Insert(cate)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetAllCategories() ([]*Category, error) {
+	o := orm.NewOrm()
+	cates := make([]*Category, 0)
+	qs := o.QueryTable("category")
+	_, err := qs.All(&cates)
+	return cates, err
+}
