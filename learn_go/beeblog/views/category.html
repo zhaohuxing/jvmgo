@@ -16,7 +16,7 @@
 					<input id="name" class="form-control" name="name" placeholder="请输入分类名称" />
 				</div>
 				<input type="hidden" name="op" value="add" />
-				<button type="submit" class="btn btn-default" onclick="return checkInput();">登录</button>
+				<button type="submit" class="btn btn-default" onclick="return checkInput();">添加</button>
 			</form>
 
 			<script type="text/javascript">
@@ -43,12 +43,14 @@
 
 				<tbody>
 					{{range .Categories}}
+					<tr>
 					<th>{{.Id}}</th>
 					<th>{{.Title}}</th>
 					<th>{{.TopicCount}}</th>
 					<th>
 						<a href="/category?op=del&id={{.Id}}">删除</a>
 					</th>
+					</tr>
 					{{end}}
 				</tbody>
 			</table>

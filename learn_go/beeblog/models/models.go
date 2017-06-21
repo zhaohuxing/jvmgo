@@ -1,8 +1,10 @@
 package models
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"strconv"
 	"time"
 )
 
@@ -51,9 +53,20 @@ func AddCategory(name string) error {
 		return err
 	}
 
+	beego.Alert("添加操作完成")
 	return nil
 }
 
+func DelCategory(id string) error {
+	cid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return err
+	}
+	o := orm.NewOrm()
+	cate := &Category{Id: cid}
+	_, err = o.Delete(cate)
+	return err
+}
 func GetAllCategories() ([]*Category, error) {
 	o := orm.NewOrm()
 	cates := make([]*Category, 0)

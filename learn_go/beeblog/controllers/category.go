@@ -11,9 +11,11 @@ type CategoryController struct {
 
 func (self *CategoryController) Get() {
 	op := self.Input().Get("op")
+	beego.Alert(op)
 	switch op {
 	case "add":
 		name := self.Input().Get("name")
+		beego.Alert(name)
 		if len(name) == 0 {
 			break
 		}
@@ -29,6 +31,13 @@ func (self *CategoryController) Get() {
 		if len(id) == 0 {
 			break
 		}
+
+		err := models.DelCategory(id)
+		if err != nil {
+			beego.Error(err)
+		}
+		self.Redirect("/category", 301)
+		return
 	}
 	self.TplName = "category.html"
 	self.Data["IsCategory"] = true
