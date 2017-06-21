@@ -1,0 +1,29 @@
+{{template "header"}}
+
+		<title>添加文章 - 我的 beego博客</title>
+	</head>
+
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				{{template "navbar" .}}
+			</div>
+		
+		</div>
+		<div class="container test">
+			<h1>添加文章</h1>
+			<form method="post" action="/topic">
+				<div class="form-group">
+					<label>文章标题:</label>	
+					<input type="text" name="title" class="form-control">
+				</div>	
+
+				<div class="form-group">
+					<label>文章内容:</label>
+					<textarea name="content" cols="30" rows="10" class="form-control"></textarea>
+				</div>
+				<button type="submit" class="btn btn-default">添加文章</button>
+			</form>
+		</div>
+	</body>
+</html>

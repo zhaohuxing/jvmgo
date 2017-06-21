@@ -24,7 +24,7 @@ func (self *CategoryController) Get() {
 		if err != nil {
 			beego.Error(err)
 		}
-		self.Redirect("/category", 301)
+		self.Redirect("/category", 302)
 		return
 	case "del":
 		id := self.Input().Get("id")
@@ -36,11 +36,12 @@ func (self *CategoryController) Get() {
 		if err != nil {
 			beego.Error(err)
 		}
-		self.Redirect("/category", 301)
+		self.Redirect("/category", 302)
 		return
 	}
 	self.TplName = "category.html"
 	self.Data["IsCategory"] = true
+	self.Data["IsLogin"] = checkAccount(self.Ctx)
 
 	var err error
 	self.Data["Categories"], err = models.GetAllCategories()

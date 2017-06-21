@@ -33,6 +33,20 @@ type Topic struct {
 	ReplyLastUserId int64
 }
 
+func AddTopic(title, content string) error {
+	o := orm.NewOrm()
+
+	topic := &Topic{
+		Title:     title,
+		Content:   content,
+		Created:   time.Now(),
+		Updated:   time.Now(),
+		Replytime: time.Now(),
+	}
+
+	_, err := o.Insert(topic)
+	return err
+}
 func RegisterDB() {
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(127.0.0.1:3306)/beeblog?charset=utf8", 30)
 	orm.RegisterModel(new(Category), new(Topic))

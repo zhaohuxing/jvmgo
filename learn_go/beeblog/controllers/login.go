@@ -11,12 +11,15 @@ type LoginController struct {
 
 func (self *LoginController) Get() {
 	isExit := self.Input().Get("exit") == "true"
+	beego.Alert(isExit)
+	beego.Alert(self.Input().Get("exit"))
 	if isExit {
 		self.Ctx.SetCookie("uname", "", -1, "/")
 		self.Ctx.SetCookie("pwd", "", -1, "/")
-		self.Redirect("/", 301)
+		self.Redirect("/", 302)
 		return
 	}
+
 	self.TplName = "login.html"
 }
 
@@ -32,7 +35,7 @@ func (self *LoginController) Post() {
 		self.Ctx.SetCookie("uname", uname, maxAge, "/")
 		self.Ctx.SetCookie("pwd", pwd, maxAge, "/")
 	}
-	self.Redirect("/", 301)
+	self.Redirect("/", 302)
 	return
 }
 

@@ -1,0 +1,41 @@
+{{template "header"}}
+
+		<title>文章 - 我的 beego博客</title>
+	</head>
+
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				{{template "navbar" .}}
+			</div>
+		
+		</div>
+		<div class="container test">
+			<h1>文章列表</h1>
+			<a href="/topic/add" class="btn btn-default">添加文章</a>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>文章名称</th>
+						<th>最后更新</th>
+						<th>浏览</th>
+						<th>回复数</th>
+					</tr>
+				</thead>	
+
+				<tbody>
+					{{range .Topics}}
+					<tr>
+					<th>{{.Id}}</th>
+					<th>{{.Title}}</th>
+					<th>{{.Updated}}</th>
+					<th>{{.Views}}</th>
+					<th>{{.ReplyCount}}</th>
+					</tr>
+					{{end}}
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
