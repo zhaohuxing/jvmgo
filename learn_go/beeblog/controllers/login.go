@@ -10,10 +10,9 @@ type LoginController struct {
 }
 
 func (self *LoginController) Get() {
-	isExit := self.Input().Get("exit") == "true"
-	beego.Alert(isExit)
+	// 判断是否为退出操作
 	beego.Alert(self.Input().Get("exit"))
-	if isExit {
+	if self.Input().Get("exit") == "true" {
 		self.Ctx.SetCookie("uname", "", -1, "/")
 		self.Ctx.SetCookie("pwd", "", -1, "/")
 		self.Redirect("/", 302)
