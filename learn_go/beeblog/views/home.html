@@ -11,13 +11,15 @@
 		</div>
 
 		<div class="container test">
+			{{range .Topics}}
 			<div class="page-header">
-				<h1>我第一篇博客</h1>
-				<h6 class="text-muted">作者:莫一兮 文章发表于2017年06月19日 19:39, 共1000次浏览，532个评论</h6>
+				<h1>{{.Title}}</h1>
+				<h6 class="text-muted">作者:莫一兮 文章发表于{{.Created}}, 共{{.Views}}次浏览，{{.ReplyCount}}个评论</h6>
 				<p>
-					大家好，这我的第一篇博客，多谢观看
+					{{.Content}}
 				</p>
 			</div>
+			{{end}}
 		</div>
 	</body>
 </html>

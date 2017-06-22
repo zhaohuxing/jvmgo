@@ -1,0 +1,18 @@
+{{template "header"}}
+
+		<title>{{.Topic.Title}} - 我的 beego博客</title>
+	</head>
+
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				{{template "navbar" .}}
+			</div>
+		
+		</div>
+		<div class="container test">
+			<h1>{{.Topic.Title}} <a href="/topic/modify?tid={{.Tid}}" class="btn btn-default">修改文章</a></h1>
+			{{.Topic.Content}}
+		</div>
+	</body>
+</html>
