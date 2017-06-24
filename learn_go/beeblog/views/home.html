@@ -9,17 +9,26 @@
 				{{template "navbar" .}}		
 			</div>
 		</div>
-
-		<div class="container test">
-			{{range .Topics}}
-			<div class="page-header">
-				<h1>{{.Title}}</h1>
-				<h6 class="text-muted">作者:莫一兮 文章发表于{{.Created}}, 共{{.Views}}次浏览，{{.ReplyCount}}个评论</h6>
-				<p>
-					{{.Content}}
-				</p>
+		<div class="col-md-9">
+			<div class="container test">
+				{{range .Topics}}
+				<div class="page-header">
+					<h1><a href="/topic/view/{{.Id}}">{{.Title}}</a></h1>
+					<h6 class="text-muted">作者:莫一兮 文章发表于{{.Created}}, 共{{.Views}}次浏览，{{.ReplyCount}}个评论</h6>
+					<p>
+						{{.Content}}
+					</p>
+				</div>
+				{{end}}
 			</div>
-			{{end}}
+		</div>
+		<div class="col-md-3 test" >
+			<h3>文章分类</h3>
+			<ul>
+				{{range .Categories}}	
+				<li><a href="/?cate={{.Title}}">{{.Title}}</a></li>
+				{{end}}
+			</ul>
 		</div>
 	</body>
 </html>

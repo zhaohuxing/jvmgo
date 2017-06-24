@@ -29,11 +29,11 @@
 					{{range .Topics}}
 					<tr>
 					<th>{{.Id}}</th>
-					<th>{{.Title}}</th>
+					<th><a href="/topic/view/{{.Id}}">{{.Title}}</a></th>
 					<th>{{.Updated}}</th>
 					<th>{{.Views}}</th>
 					<th>{{.ReplyCount}}</th>
-					<th><a href="/topic/delete/{{.Id}}">删除</a></th>
+					<th><a href="/topic/modify?tid={{.Id}}">修改</a>&nbsp;<a href="/topic/delete/{{.Id}}">删除</a></th>
 					</tr>
 					{{end}}
 				</tbody>

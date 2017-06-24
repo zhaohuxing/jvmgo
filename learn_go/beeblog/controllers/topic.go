@@ -13,7 +13,7 @@ func (self *TopicController) Get() {
 	self.Data["IsToptic"] = true
 	self.TplName = "topic.html"
 	self.Data["IsLogin"] = checkAccount(self.Ctx)
-	topics, err := models.GetAllTopics(false)
+	topics, err := models.GetAllTopics("", false)
 	if err != nil {
 		beego.Error(err)
 	} else {
@@ -53,7 +53,8 @@ func (self *TopicController) Add() {
 func (self *TopicController) View() {
 	self.TplName = "topic_view.html"
 
-	topic, err := models.GetTopic(self.Ctx.Input.Param("0"))
+	tid := self.Ctx.Input.Param("0")
+	topic, err := models.GetTopic(tid)
 	if err != nil {
 		beego.Error(err)
 		self.Redirect("/", 302)
@@ -61,6 +62,14 @@ func (self *TopicController) View() {
 	}
 	self.Data["Topic"] = topic
 	self.Data["Tid"] = self.Ctx.Input.Param("0")
+
+	replies, err1 := models.GetAllReplies(tid)
+	if err1 != nil {
+		beego.Error(err1)
+		return
+	}
+	self.Data["Replies"] = replies
+	self.Data["IsLogin"] = checkAccount(self.Ctx)
 }
 
 func (self *TopicController) Modify() {

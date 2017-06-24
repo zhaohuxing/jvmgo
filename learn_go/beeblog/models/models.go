@@ -34,6 +34,57 @@ type Topic struct {
 	ReplyLastUserId int64
 }
 
+type Comment struct {
+	Id      int64
+	Tid     int64
+	Name    string
+	Content string    `orm:"size(1000)"`
+	Created time.Time `orm:"index"`
+}
+
+func AddReply(tid, nickname, content string) error {
+	tidNum, err := strconv.ParseInt(tid, 10, 64)
+	if err != nil {
+		return err
+	}
+
+	reply := &Comment{
+		Tid:     tidNum,
+		Name:    nickname,
+		Content: content,
+		Created: time.Now(),
+	}
+	o := orm.NewOrm()
+	_, err = o.Insert(reply)
+	return err
+}
+
+func DeleteReply(rid string) error {
+	ridNum, err := strconv.ParseInt(rid, 10, 64)
+	if err != nil {
+		return err
+	}
+
+	reply := &Comment{
+		Id: ridNum,
+	}
+	o := orm.NewOrm()
+	_, err = o.Delete(reply)
+	return err
+}
+func GetAllReplies(tid string) ([]*Comment, error) {
+	tidNum, err := strconv.ParseInt(tid, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	replies := make([]*Comment, 0)
+	o := orm.NewOrm()
+	qs := o.QueryTable("comment")
+
+	_, err = qs.Filter("tid", tidNum).All(&replies)
+	return replies, err
+}
 func AddTopic(title, category, content string) error {
 	o := orm.NewOrm()
 
@@ -50,13 +101,16 @@ func AddTopic(title, category, content string) error {
 	return err
 }
 
-func GetAllTopics(isDesc bool) ([]*Topic, error) {
+func GetAllTopics(cate string, isDesc bool) ([]*Topic, error) {
 	o := orm.NewOrm()
 
 	topics := make([]*Topic, 0)
 	qs := o.QueryTable("topic")
 	var err error
 	if isDesc {
+		if len(cate) > 0 {
+			qs = qs.Filter("category", cate)
+		}
 		_, err = qs.OrderBy("-created").All(&topics)
 	} else {
 		_, err = qs.All(&topics)
@@ -112,9 +166,11 @@ func DeleteTopic(tid string) error {
 	_, err = o.Delete(topic)
 	return err
 }
+
 func RegisterDB() {
 	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(127.0.0.1:3306)/beeblog?charset=utf8", 30)
-	orm.RegisterModel(new(Category), new(Topic))
+	//注册models
+	orm.RegisterModel(new(Category), new(Topic), new(Comment))
 }
 
 func AddCategory(name string) error {

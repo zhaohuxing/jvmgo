@@ -11,8 +11,36 @@
 		
 		</div>
 		<div class="container test">
-			<h1>{{.Topic.Title}} <a href="/topic/modify?tid={{.Tid}}" class="btn btn-default">修改文章</a></h1>
+			<h1>{{.Topic.Title}} </h1>
 			{{.Topic.Content}}
+		</div>
+
+		<div class="container">
+			{{$tid := .Topic.Id}}
+			{{$isLogin := .IsLogin}}
+			{{range .Replies}}
+			<h3>{{.Name}} <small>{{.Created}}</small>
+				{{if $isLogin}}
+				<a href="/reply/delete?tid={{$tid}}&rid={{.Id}}">删除</a>
+				{{end}}
+			</h3>
+			{{.Content}}
+			{{end}}
+			<h3>本文回复</h3>
+			<form method="post" action="/reply/add">
+				<input type="hidden" name="tid" value="{{.Topic.Id}}">
+				<div class="form-group">
+					<label>显示昵称:</label>
+					<input type="text" class="form-control" name="nickname" />
+				</div>
+
+				<div class="form-group">
+					<label>内容: </label>
+					<textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
+				</div>
+
+				<button class="btn btn-default">提交回复</button>
+			</form>
 		</div>
 	</body>
 </html>
