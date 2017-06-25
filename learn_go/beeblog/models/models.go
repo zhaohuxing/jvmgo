@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -23,6 +24,7 @@ type Topic struct {
 	Uid             int64
 	Title           string
 	Category        string
+	Labels          string
 	Content         string `orm:"size(5000)"`
 	Attachment      string
 	Created         time.Time `orm:"index"`
@@ -56,6 +58,16 @@ func AddReply(tid, nickname, content string) error {
 	}
 	o := orm.NewOrm()
 	_, err = o.Insert(reply)
+	if err != nil {
+		return err
+	}
+
+	topic := &Topic{Id: tidNum}
+	if o.Read(topic) == nil {
+		topic.Replytime = time.Now()
+		topic.ReplyCount++
+		_, err = o.Update(topic)
+	}
 	return err
 }
 
@@ -69,9 +81,33 @@ func DeleteReply(rid string) error {
 		Id: ridNum,
 	}
 	o := orm.NewOrm()
-	_, err = o.Delete(reply)
+
+	var tidNum int64
+
+	if o.Read(reply) == nil {
+		tidNum = reply.Tid
+		_, err = o.Delete(reply)
+		if err != nil {
+			return err
+		}
+	}
+
+	replies := make([]*Comment, 0)
+	qs := o.QueryTable("comment")
+	_, err = qs.Filter("tid", tidNum).OrderBy("-created").All(&replies)
+	if err != nil {
+		return err
+	}
+
+	topic := &Topic{Id: tidNum}
+	if o.Read(topic) == nil {
+		topic.Replytime = replies[0].Created
+		topic.ReplyCount = int64(len(replies))
+		_, err = o.Update(topic)
+	}
 	return err
 }
+
 func GetAllReplies(tid string) ([]*Comment, error) {
 	tidNum, err := strconv.ParseInt(tid, 10, 64)
 	if err != nil {
@@ -85,12 +121,14 @@ func GetAllReplies(tid string) ([]*Comment, error) {
 	_, err = qs.Filter("tid", tidNum).All(&replies)
 	return replies, err
 }
-func AddTopic(title, category, content string) error {
+func AddTopic(title, category, label, content string) error {
+	label = "$" + strings.Join(strings.Split(label, ""), "#$") + "#"
 	o := orm.NewOrm()
 
 	topic := &Topic{
 		Title:     title,
 		Content:   content,
+		Labels:    label,
 		Category:  category,
 		Created:   time.Now(),
 		Updated:   time.Now(),
@@ -114,7 +152,7 @@ func AddTopic(title, category, content string) error {
 	return err
 }
 
-func GetAllTopics(cate string, isDesc bool) ([]*Topic, error) {
+func GetAllTopics(cate, label string, isDesc bool) ([]*Topic, error) {
 	o := orm.NewOrm()
 
 	topics := make([]*Topic, 0)
@@ -123,6 +161,9 @@ func GetAllTopics(cate string, isDesc bool) ([]*Topic, error) {
 	if isDesc {
 		if len(cate) > 0 {
 			qs = qs.Filter("category", cate)
+		}
+		if len(label) > 0 {
+			qs = qs.Filter("labels__contains", "$"+label+"#")
 		}
 		_, err = qs.OrderBy("-created").All(&topics)
 	} else {
@@ -147,15 +188,19 @@ func GetTopic(tid string) (*Topic, error) {
 	}
 	topic.Views++
 	_, err = o.Update(topic)
-	return topic, err
+
+	topic.Labels = strings.Replace(strings.Replace(
+		topic.Labels, "#", "", -1), "$", "", -1)
+	return topic, nil
 }
 
-func ModifyTopic(tid, title, category, content string) error {
+func ModifyTopic(tid, title, category, label, content string) error {
 	tidNum, err := strconv.ParseInt(tid, 10, 64)
 	if err != nil {
 		return err
 	}
 
+	label = "$" + strings.Join(strings.Split(label, ""), "#$") + "#"
 	var oldCate string
 	o := orm.NewOrm()
 	topic := &Topic{Id: tidNum}
@@ -164,6 +209,8 @@ func ModifyTopic(tid, title, category, content string) error {
 		topic.Title = title
 		topic.Content = content
 		topic.Category = category
+		topic.Labels = label
+
 		topic.Updated = time.Now()
 		_, err = o.Update(topic)
 		if err != nil {
