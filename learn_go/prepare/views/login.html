@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="utf8" />
+		<title>登录</title>
+		<link href="static/css/login.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div>
+			<form method="post"> 
+				<input type="text" name="phoneNumber" id="phoneNumber" /> <br />
+				<input type="password" name="password" id="password" />   <br />
+				<input onclick="return login()" type="button" value="登录"/>
+				<!-- button 就是个坑呀
+				<button onclick="return login()">登录</button>
+				-->
+			</form>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/login.js" type="text/javascript" charset="utf-8"></script>
+</html>
