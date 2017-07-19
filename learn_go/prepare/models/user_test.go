@@ -4,19 +4,14 @@ import "testing"
 import "fmt"
 
 func TestInsert(t *testing.T) {
-	user := User{
-		PhoneNumber: "17862822537",
-		Password:    "root123456",
-	}
-
-	if !InsertUser(user) {
-		t.Log("添加失败")
-	}
+	/*	if InsertUser("17862822537", "root123456") {
+		fmt.Println("添加成功")
+	}*/
+	fmt.Println(InsertUser("17862822537", "root123456"))
 }
 
 func TestGet(t *testing.T) {
-	if !GetUser("17862822537", "root123456") {
-		fmt.Println("获取失败")
-		t.Log("添加失败")
+	if GetUser("17862822537", "root123456") {
+		fmt.Println("获取成功")
 	}
 }

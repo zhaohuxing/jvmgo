@@ -10,22 +10,18 @@ type User struct {
 }
 
 func InsertUser(phoneNumber, password string) bool {
-
 	// db := db.Open() 糟糕命名方式
 	db := databases.Open()
-	defer db.Close()
-	stmt, err := db.Prepare("insert user set phone_number = ?, password = ?")
-	defer stmt.Close()
+	stmt, err := db.Prepare("insert into user (phone_number, password)values(?,?)")
+	if err != nil {
+		panic("insert prepare failed.")
+	}
 
+	_, err = stmt.Exec(phoneNumber, password)
 	if err != nil {
-		panic(err)
+		panic("insert exec failed.")
 	}
-	res, err := stmt.Exec(phoneNumber, password)
-	if err != nil {
-		return false
-	}
-	id, err := res.LastInsertId()
-	fmt.Println(id)
+
 	return true
 }
 

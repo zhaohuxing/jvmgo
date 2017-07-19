@@ -12,6 +12,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", ctrl.Index)
 	http.HandleFunc("/login", ctrl.Login)
+	http.HandleFunc("/register", ctrl.Register)
 	err := http.ListenAndServe(":9000", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
