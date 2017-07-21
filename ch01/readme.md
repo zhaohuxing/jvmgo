@@ -1,100 +1,105 @@
->源于只因遇见Go，被Go的魅力所折服，慢慢将发生下面的故事
+## 重温(170721)
 
-## Ubuntu下Go的安装
-Go的安装方式有好几种，可以根据自己的系统版本，下载对应的文件．分享下我的安装方式，笔者系统版本是linux(ubuntu)64位，往后都是基于Liunx(Ubuntu)进行分享．
-- [下载Go的源码](https://golang.org/dl/)
-- 解压源码--->自定义文件夹
-- 设置环境变量
-  - GOROOT:`export GOROOT=/home/ubuntu/go/`,Go源码文件夹所在地址
-  - GOPATH: `export GOPATH=/home/ubuntu/workspace/`,Go代码存放位置
-  - PATH:`export PATH=$PATH:$GOROOT/bin:$GOPATH/bin`,设置下系统环境变量
+> 学习 “自己动手编写 JVM” ，本文主要涉及 Go 的 flag 包的使用。
 
-注意：说明下，根据本地脚本的类型在响应的配置文件中修改变量，比如：我的是zsh, 我就需要在`.zshrc`中修改
 
-完成上述操作后，我们可以命令行中敲入`go`,验证是否安装成功,类似`java`命令．
-
-## 小试牛刀
-安装Go之后，我们可以在`workspace`中编写我们的Go代码了吗？可以，但是我们要管理我们程序结构，所以`workspace`中需要三个文件夹：
-- bin: 编译之后可执行文件
-- pkg: 应用包
-- src:应用源码(我们编写的代码)
-
-在src目录下创建`jvmgo`工程，再在`jvmgo`文件下创建子目录`ch01`,我工程目录图如下：
-![workspace.jpg](http://upload-images.jianshu.io/upload_images/2031765-ac64df805fc63740.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-简单实现命令行设置，执行效果如下:
-
-![result.jpg](http://upload-images.jianshu.io/upload_images/2031765-eb2906ba753efbba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-命令解释:
-- go build : 编译代码，默认生成与文件相同的可执行文件
-- ch01 -version: ch01,编译后生成的可执行文件，-version, 预定义命令．
-- ch01 -help: ch01,编译后生成的可执行文件，-help, 预定义命令．
-
-实现思路:
-- 编写命令行工具文件，定义命令行信息，如:terminal.go
-- 利用`flag`模块预先定义命令
-- 编写main函数测试执行
-
-在/ch01/文件夹下创建terminal.go文件,定义命令行信息,并预定义命令:
+## 实现目标
+实现一个简单的命令行工具。栗子：
 ```
-//定义命令行信息，Termial结构体
-type Terminal struct {
-	helpFlag    bool     //　-help
-	versionFlag bool     // -version
-	cpOption    string   // -cp
-	class       string   // 指定class
-	args        []string //参数
+$ java -version
+$ Java 1.9
+```
+## 实现原理
+利用 Go 的处理命令行的 package: flag, 来实现。具体查看下文代码实现以及flag 的官方文档。
+## 代码实现
+在`gopath`的目录下的`src`文件中创建`jvm`工程，并创建 `cmd.go`和`main.go`文件。
+- `cmd.go`用来预设置命令行
+- `main.go` 用来简单的逻辑执行，也是程序的入口
+
+附上我的工程目录:
+![ch01.png](http://upload-images.jianshu.io/upload_images/2031765-0b8d2c714502c801.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+实现步骤：
+- 定义 Cmd 结构体
+- 预定义命令
+- 在 main 中编写简单的逻辑
+
+#### 定义 Cmd 结构体
+```
+type Cmd struct {
+	versionFlag bool
+	helpFlag    bool
+	cpOption    string
+	class       string
+	args        []string
 }
+```
+#### 预定义命令
+```
+func parseCmd() *Cmd {
+	cmd := &Cmd{}
 
-//预先定义命令
-func parseTerminal() *Terminal {
-	//定义一个terminal结构体, 因c,c++,go存在指针,所以yong"&Terminal{}",将地址给terminal
-	terminal := &Terminal{}
+	// set command line variable
+	flag.BoolVar(&cmd.versionFlag, "version", false, "print version message")
+	flag.BoolVar(&cmd.helpFlag, "help", false, "print help message")
+	flag.StringVar(&cmd.cpOption, "cp", "", "classpath")
 
-	/*定义命令行参数*/
-	flag.Usage = printUsage
-	flag.BoolVar(&terminal.helpFlag, "help", false, "print help message")
-	flag.BoolVar(&terminal.helpFlag, "?", false, "print help message")
-	flag.BoolVar(&terminal.versionFlag, "version", false, "print version and exit")
-	flag.StringVar(&terminal.cpOption, "classpath", "", "classpath")
-	flag.StringVar(&terminal.cpOption, "cp", "", "classpath")
-	//命令行参数解析
+	//parse command line
 	flag.Parse()
 	args := flag.Args()
 	if len(args) > 0 {
-		terminal.class = args[0]
-		terminal.args = args[1:]
+		cmd.class = args[0]
+		cmd.args = args[1:]
 	}
-	return terminal
+	return cmd
 }
 ```
-
-在/ch01/文件下创建main.go文件，测试:
+#### 在 main 中编写简单的逻辑
 ```
-package main
-
-import "fmt"
 
 func main() {
-	terminal := parseTerminal()
-	if terminal.versionFlag {
-		fmt.Println("version 0.0.1")
-	} else if terminal.helpFlag || terminal.class == "" {
-		printUsage()
+	cmd := parseCmd()
+	if cmd.versionFlag {
+		fmt.Println("java 1.9")
+	} else if cmd.class != "" {
+		startJVM(cmd)
 	} else {
-		startJVM(terminal)
+		cmdOfUsage()
 	}
 }
 
-func startJVM(terminal *Terminal) {
-	fmt.Printf("classpath:%s class:%s args:%v\n", terminal.cpOption, terminal.class, terminal.args)
+func startJVM(cmd *Cmd) {
+	fmt.Println("startJVM")
 }
-
 ```
 
-注:上述代码算是伪代码吧, 源文件还请移步[源码](https://github.com/zhaohuXing/jvmgo/tree/master/ch01)
+代码编写完后，在`ch01`目录下敲入命令行：
+```
+$ go build -o cmd
+```
+这时在当前目录便生成了可执行文件`cmd`，然后进行测试，敲入命令行：
+```
+$ ./cmd -version
+或
+$ ./cmd -help
+```
+附上我的效果图：
 
-#### 参考文献：
+![ch01_result_01.png](http://upload-images.jianshu.io/upload_images/2031765-19930a3f8c504062.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+## Go 加餐
+本文涉及到flag中的函数：
+-  [func Parse()](https://golang.org/pkg/flag/#Parse) ：用于解析输入的命令行
+- [func BoolVar(p *bool, name string, value bool, usage string)](https://golang.org/pkg/flag/#BoolVar)
+- [func StringVar(p *string, name string, value string, usage string)](https://golang.org/pkg/flag/#StringVar)
+
+详情查看文档吧。
+
+##参考文献：
 - 自己动手写Java虚拟机
 - https://github.com/astaxie/build-web-application-with-golang
+- 源码：https://github.com/zhaohuXing/jvmgo/tree/master/ch01
+
+精彩文章，持续更新，请关注微信公众号：
+![帅哥美女扫一扫](http://upload-images.jianshu.io/upload_images/2031765-2c4654abe66cd4c8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
